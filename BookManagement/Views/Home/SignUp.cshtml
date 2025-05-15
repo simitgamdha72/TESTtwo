@@ -1,13 +1,20 @@
-﻿@model BookManagement.ViewModels.UserViewModel
-
-<div class="LoginForm">
+@model BookManagement.ViewModels.UserViewModel
+@{
+    var AllredayExist = TempData["AllredayExist"] as string;
+}
+<div class="SignUpForm">
     <div class="container">
-        <span class="HeadText">SignIn using Email</span>
-        <form method="post" asp-action="Index" asp-controller="Home">
+        <span class="HeadText">Registration of new User</span>
+        <form method="post" asp-action="SignUp" asp-controller="Home">
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
                 <input type="email" asp-for="Email" class="form-control" placeholder="Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="text" asp-for="UserName" class="form-control" placeholder="UserName" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
 
             <!-- Password input -->
@@ -20,9 +27,8 @@
                 <!-- Submit button -->
                 <button type="submit" data-mdb-button-init data-mdb-ripple-init
                     class="btn customBtnPrimary btn-block mb-4">Sign
-                    in</button>
-
-                <a href="@Url.Action("SignUp", "Home")" class="text-decoration-none new-user-link">New User?</a>
+                    up</button>
+                <a href="@Url.Action("Index", "Home")" class="text-decoration-none new-user-link">LogIn?</a>
 
             </div>
 
@@ -36,4 +42,11 @@
 
 @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+@if (!string.IsNullOrEmpty(AllredayExist))
+{
+    <script>
+        toastr.error('@AllredayExist');  // Show success message using Toastr
+    </script>
 }

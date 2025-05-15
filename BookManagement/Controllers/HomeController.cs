@@ -71,13 +71,14 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Index(UserViewModel userViewModel)
     {
+        if (ModelState.ContainsKey("UserName")) ModelState.Remove("UserName");
+
         if (!ModelState.IsValid)
         {
             return View(userViewModel);
         }
 
-
-        var user = _context.Users.FirstOrDefault(u => u.Email == userViewModel.Email);
+        User? user = _context.Users.FirstOrDefault(u => u.Email == userViewModel.Email);
         if (user == null || user.Password != userViewModel.Password)
         {
             user = null;
@@ -136,7 +137,41 @@ public class HomeController : Controller
             return RedirectToAction("UserProfile", "Home");
         }
 
+    }
 
+    public IActionResult SignUp()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult SignUp(UserViewModel userViewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(userViewModel);
+        }
+
+        User? user = _context.Users.FirstOrDefault(u => u.Email == userViewModel.Email || u.UserName == userViewModel.UserName);
+
+        if (user != null)
+        {
+            TempData["AllredayExist"] = "This Email or Username is Allready in use!";
+            return View();
+        }
+
+        User newUser = new User
+        {
+            Email = userViewModel.Email,
+            UserName = userViewModel.UserName,
+            Password = userViewModel.Password,
+            Role = "user"
+        };
+
+        _context.Users.Add(newUser);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index", "Home");
     }
 
     [Authorize]

@@ -18,4 +18,8 @@ public class UserViewModel
     [RegularExpression(@"^\S+$", ErrorMessage = "Password cannot contain spaces.")]
     public string Password { get; set; }
 
+    [Required(ErrorMessage = "UserName is required")]
+    [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "UserName cannot be only spaces.")]
+    public string UserName { get; set; }
+
 }
