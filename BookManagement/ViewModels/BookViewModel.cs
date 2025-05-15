@@ -7,12 +7,19 @@ public class BookViewModel
 {
     public int? Id { get; set; }
 
+    [Required(ErrorMessage = "Title is required")]
+    [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "Title cannot be only spaces.")]
     public string Title { get; set; } = null!;
 
+    [Required(ErrorMessage = "Author is required")]
+    [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "Author cannot be only spaces.")]
     public string Author { get; set; } = null!;
 
+    [Required]
     public DateTime PublieshedYear { get; set; }
 
+    [Required(ErrorMessage = "ISBN is required")]
+    [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "ISBN cannot be only spaces.")]
     public string ISBN { get; set; } = null!;
 
     public string status { get; set; } = "available";

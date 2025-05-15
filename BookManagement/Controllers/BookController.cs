@@ -219,6 +219,15 @@ public class BookController : Controller
             return Json(false);
         }
 
+        var userIssuedBooks = _context.UserIssuedBooks.Where(b => b.BookId == books.Id).ToList();
+
+        foreach (var item in userIssuedBooks)
+        {
+            _context.UserIssuedBooks.Remove(item);
+        }
+
+
+
         _context.Books.Remove(books);
         _context.SaveChanges();
 
