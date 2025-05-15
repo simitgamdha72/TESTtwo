@@ -1,8 +1,30 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model BookManagement.ViewModels.UserViewModel
+<div class="LoginForm">
+    <div class="container">
+        <span class="HeadText">SignIn using Email</span>
+        <form method="post" asp-action="Index" asp-controller="Home">
+            <!-- Email input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="email" asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+            <!-- Password input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" asp-for="Password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                class="btn customBtnPrimary btn-block mb-4">Sign
+                in</button>
+
+        </form>
+    </div>
 </div>
+
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}

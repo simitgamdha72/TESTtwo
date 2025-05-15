@@ -1,0 +1,175 @@
+<nav class="navbar navbar-expand-lg">
+    <div id="navbarItem">
+        <a class="nav-item nav-link DashBoardHeadTag" href="#">AdminDashboard</a>
+        <form asp-controller="Home" asp-action="Logout" method="post">
+            <button class="btn customBtnSecondary LogOutBtn">LogOut</button>
+        </form>
+    </div>
+</nav>
+
+
+<div class="dashboard-container">
+    <div class="header">
+        <h1>Dashboard</h1>
+
+    </div>
+
+    <div class="row">
+        <!-- Stats Cards -->
+        <div class="col-md-3 col-sm-6">
+            <div class="card stat-card">
+                <h2 class="stat-value">₹999</h2>
+                <p class="stat-label">Total Sales</p>
+                <div class="icon-bg icon-green">
+                    <i class="bi bi-bar-chart"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card stat-card">
+                <h2 class="stat-value">777</h2>
+                <p class="stat-label">Total Orders</p>
+                <div class="icon-bg icon-purple">
+                    <i class="bi bi-cart"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card stat-card">
+                <h2 class="stat-value">₹111</h2>
+                <p class="stat-label">Avg. Order Value</p>
+                <div class="icon-bg icon-blue">
+                    <i class="bi bi-receipt"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card stat-card">
+                <h2 class="stat-value">111</h2>
+                <p class="stat-label">Total Visits done by Users</p>
+                <div class="icon-bg icon-red">
+                    <i class="bi bi-clock"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Charts -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Revenue</h5>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Customer Growth</h5>
+                    <div class="chart-container">
+                        <canvas id="customerChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Revenue Chart
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+            labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+            datasets: [{
+                label: 'Revenue',
+                data: ["111", "222", "333", "111", "222", "333", "111", "222", "333", "0"],
+                fill: true,
+                backgroundColor: 'rgb(148, 180, 193)',
+                borderColor: 'rgb(33, 52, 72)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'end'
+                }
+            }
+        }
+    });
+
+    // Customer Growth Chart
+    const customerCtx = document.getElementById('customerChart').getContext('2d');
+    const customerChart = new Chart(customerCtx, {
+        type: 'line',
+        data: {
+            labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+            datasets: [{
+                label: 'Customer',
+                data: ["111", "222", "333", "111", "222", "333", "111", "222", "333", "0"],
+                fill: true,
+                backgroundColor: 'rgb(148, 180, 193)',
+                borderColor: 'rgb(33, 52, 72)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'end'
+                }
+            }
+        }
+    });
+
+
+</script>
+
+
+<style>
+    .Layout {
+        background-color: white !important;
+        display: block;
+    }
+</style>
