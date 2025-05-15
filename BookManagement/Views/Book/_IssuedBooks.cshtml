@@ -1,0 +1,64 @@
+@model BookManagement.ViewModels.BookViewModel
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title
+                <span class="sort-icon" data-column="Name" onclick="sortTable()">
+                    <i class="bi bi-arrow-down-up"></i>
+                </span>
+            </th>
+            <th scope="col">Author</th>
+            <th scope="col">Year</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model.books)
+        {
+            <tr>
+                <th scope="row">@book.Id</th>
+                <td>@book.Title</td>
+                <td>@book.Author</td>
+                <td>@book.PublieshedYear.Year</td>
+                <td>@book.ISBN</td>
+                <td>
+                    @if (book.status == "issued")
+                    {
+                        <div class="Book-Status-true">
+                            Issued
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="Book-Status-false">
+                            Available
+                        </div>
+                    }
+
+                </td>
+                <td>
+                    <div>
+                        @if (book.status == "available")
+                        {
+                            <button class="btn btn-sm btn-outline-primary" onclick="IssueBook(@book.Id)">
+                                Issue
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-sm btn-outline-primary" disabled>
+                                Issue
+                            </button>
+                        }
+                    </div>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,104 @@
+@model BookManagement.ViewModels.BookViewModel
+<div class="modal fade" id="EditBook-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5">Edit Book</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="EditBookForm">
+                <input type="hidden" asp-for="Id">
+                <div class="modal-body p-0 p-md-2">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 col-lg-12 mt-2">
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input type="text" asp-for="Title" class="form-control" placeholder="">
+                                        <span asp-validation-for="Title" class="text-danger"></span>
+                                        <label for="Title">Title*</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-12 mt-2">
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input type="text" asp-for="Author" class="form-control" placeholder="">
+                                        <span asp-validation-for="Author" class="text-danger"></span>
+                                        <label for="Author">Author*</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-12 mt-2">
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input type="Date" asp-for="PublieshedYear" class="form-control" placeholder="">
+                                        <span asp-validation-for="PublieshedYear" class="text-danger"></span>
+                                        <label for="PublieshedYear">Publieshed Date*</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-12 mt-2">
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <input type="ISBN" asp-for="ISBN" class="form-control" placeholder="">
+                                        <span asp-validation-for="ISBN" class="text-danger"></span>
+                                        <label for="ISBN">ISBN*</label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer border-top-0 d-flex justify-content-end align-items-center">
+                    <button type="submit" class="btn customBtnPrimary">Save</button>
+                    <button type="button" class="btn customBtnSecondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+
+<script>
+    $('#EditBookForm').on('submit', function (e) {
+        var isvalid = $('#EditBookForm').valid();
+        if (isvalid) {
+            e.preventDefault();
+            var form = $(this);
+            var data = form.serialize();
+
+            $.ajax({
+                type: "POST",
+                url: '@(Url.Action("EditBook", "Book"))',
+                data: data,
+                success: function (response) {
+                    if (response.success == true) {
+                        $('#EditBook-Modal').modal('hide');
+                        toastr.success(response.message);
+                        RenderBookList();
+                    }
+                    else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function () {
+                    alert('Error Adding Book!');
+                }
+            });
+        }
+    });
+</script>

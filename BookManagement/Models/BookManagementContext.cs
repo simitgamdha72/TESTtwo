@@ -56,6 +56,10 @@ public class BookManagementContext : DbContext
                             .HasColumnType("character varying")
                             .HasColumnName("Title");
 
+           entity.Property(e => e.PublieshedYear)
+.HasColumnType("timestamp without time zone")
+.HasColumnName("PublieshedYear");
+
            entity.Property(e => e.Author)
           .HasMaxLength(500)
           .HasColumnType("character varying")
@@ -74,11 +78,11 @@ public class BookManagementContext : DbContext
            entity.HasKey(e => e.Id).HasName("UserIssuedBooks_pkey");
 
            entity.HasOne(d => d.User).WithMany(p => p.userIssuedBooks)
-                          .HasForeignKey(d => d.Id)
+                          .HasForeignKey(d => d.UserId)
                           .HasConstraintName("UserIssuedBooks_userid_by_fkey");
 
            entity.HasOne(d => d.Books).WithMany(p => p.userIssuedBooks)
-                                     .HasForeignKey(d => d.Id)
+                                     .HasForeignKey(d => d.BookId)
                                      .HasConstraintName("UserIssuedBooks_bookid_by_fkey");
 
            entity.Property(e => e.isReturn).HasColumnName("isReturn");

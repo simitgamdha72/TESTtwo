@@ -3,6 +3,7 @@ using System;
 using BookManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookManagement.Migrations
 {
     [DbContext(typeof(BookManagementContext))]
-    partial class BookManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20250515101640_third")]
+    partial class third
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,8 +44,7 @@ namespace BookManagement.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("PublieshedYear")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("PublieshedYear");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -113,10 +115,7 @@ namespace BookManagement.Migrations
             modelBuilder.Entity("BookManagement.Models.UserIssuedBooks", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BookId")
                         .HasColumnType("integer");
@@ -131,10 +130,6 @@ namespace BookManagement.Migrations
                     b.HasKey("Id")
                         .HasName("UserIssuedBooks_pkey");
 
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
-
                     b.ToTable("UserIssuedBooks");
                 });
 
@@ -142,14 +137,14 @@ namespace BookManagement.Migrations
                 {
                     b.HasOne("BookManagement.Models.Books", "Books")
                         .WithMany("userIssuedBooks")
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("UserIssuedBooks_bookid_by_fkey");
 
                     b.HasOne("BookManagement.Models.User", "User")
                         .WithMany("userIssuedBooks")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("UserIssuedBooks_userid_by_fkey");

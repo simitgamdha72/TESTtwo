@@ -12,7 +12,7 @@ public class Books
 
     public DateTime PublieshedYear { get; set; }
 
-    public int ISBN { get; set; }
+    public string ISBN { get; set; } = null!;
 
     public string status { get; set; } = null!;
 

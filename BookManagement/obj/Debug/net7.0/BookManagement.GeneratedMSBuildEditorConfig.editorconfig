@@ -16,6 +16,26 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\TESTtwo\BookManagement
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/TESTtwo/BookManagement/Views/Book/_AddNewBook.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1xfQWRkTmV3Qm9vay5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/TESTtwo/BookManagement/Views/Book/_BookList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1xfQm9va0xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/TESTtwo/BookManagement/Views/Book/_DeleteBook.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1xfRGVsZXRlQm9vay5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/TESTtwo/BookManagement/Views/Book/_EditBook.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1xfRWRpdEJvb2suY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/TESTtwo/BookManagement/Views/Book/_IssuedBooks.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1xfSXNzdWVkQm9va3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/TESTtwo/BookManagement/Views/Home/DashBoard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEYXNoQm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

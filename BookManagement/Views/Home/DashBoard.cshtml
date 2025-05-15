@@ -17,7 +17,7 @@
             <!-- Stats Cards -->
             <div class="row">
                 <div class="card stat-card">
-                    <h2 class="stat-value">999</h2>
+                    <h2 class="stat-value">99</h2>
                     <p class="stat-label">Total Users</p>
                     <div class="icon-bg icon-green">
                         <i class="bi bi-bar-chart"></i>
@@ -26,8 +26,8 @@
             </div>
             <div class="row">
                 <div class="card stat-card">
-                    <h2 class="stat-value">777</h2>
-                    <p class="stat-label">Total IssuedBooks</p>
+                    <h2 class="stat-value">1</h2>
+                    <p class="stat-label">Total Issued Books</p>
                     <div class="icon-bg icon-purple">
                         <i class="bi bi-cart"></i>
                     </div>
@@ -35,8 +35,8 @@
             </div>
             <div class="row">
                 <div class="card stat-card">
-                    <h2 class="stat-value">₹111</h2>
-                    <p class="stat-label">Available Books</p>
+                    <h2 class="stat-value">11</h2>
+                    <p class="stat-label">Total Available Books</p>
                     <div class="icon-bg icon-blue">
                         <i class="bi bi-receipt"></i>
                     </div>
@@ -44,7 +44,7 @@
             </div>
             <div class="row">
                 <div class="card stat-card">
-                    <h2 class="stat-value">111</h2>
+                    <h2 class="stat-value">17</h2>
                     <p class="stat-label">Total Number of Books</p>
                     <div class="icon-bg icon-red">
                         <i class="bi bi-book"></i>
@@ -52,12 +52,196 @@
                 </div>
             </div>
         </div>
+
+        <div class="col booklist-container">
+            <div class="container-fluid">
+                <nav class="navbar-booklist">
+                    <div id="navbarItem">
+                        <a class="nav-item nav-link DashBoardHeadTag" href="#">Books</a>
+                        <div>
+                            <input type="text" class="search-input" id="searchbar" placeholder="Search">
+                            <button class="btn customBtnSecondary AddBtn" onclick="AddNewBook()">Add New</button>
+                        </div>
+                    </div>
+                </nav>
+
+                <div id="bookList">
+                </div>
+                <div class="customPagination d-flex flex-column align-items-center mt-1" id="paginationSection"></div>
+                <div class="d-flex align-items-center w-100 justify-content-end mb-2">
+                    <div class="d-flex align-items-center me-auto me-sm-3">
+                        <div class="me-sm-2" style="min-width: 7rem;">Items per page:</div>
+                        <select id="pageSizeSelect" class="form-select" onchange="applyFilters()">
+                            <option value="5" selected>5</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                    <div class="d-none d-sm-block me-sm-2" id="paginationInfo">
+                        Showing 1-10 of 100
+                    </div>
+                    <div>
+                        <button id="prevPageBtn" class="me-2" onclick="changePage(-1)">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button id="nextPageBtn" onclick="changePage(1)">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-block d-sm-none" id="paginationInfoMobile">
+                    Showing 1-10 of 100
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
 
-    <style>
-        .Layout {
-            background-color: white !important;
-            display: block;
+<div id="ModalContainer"></div>
+
+@section Scripts {
+    <script>
+
+        let currentstate = {
+            totalitemscounts: 5,
+            pageSize: 5,
+            currentPage: 1
+        };
+
+        var currentPage = 1;
+        var pageSize = 5;
+
+        let currentSort = {
+            direction: 'desc'
+        };
+
+        $(document).ready(function () {
+            RenderBookList();
+
+            $('#searchbar').on('keyup', function () {
+                clearTimeout($(this).data('timeout'));
+                $(this).data('timeout', setTimeout(function () {
+                    RenderBookList();
+                }, 500));
+            });
+        });
+
+        function sortTable(column) {
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.direction = 'asc';
+            }
+
+            RenderBookList();
+
         }
-    </style>
+
+        function RenderBookList(searchParams = {}) {
+            $.ajax({
+                url: '@Url.Action("ShowBookList", "Book")',
+                type: 'GET',
+                data: {
+                    SearchString: $('#searchbar').val(),
+                    CurrentPage: currentPage,
+                    PageSize: $('#pageSizeSelect').val(),
+                    SortDirection: currentSort.direction
+                },
+                success: function (response) {
+                    $('#bookList').html(response);
+                    updatePaginationInfo();
+                },
+                error: function () {
+                    alert('Error loading List');
+                }
+            });
+        }
+
+        function AddNewBook() {
+            $.ajax({
+                url: '@Url.Action("AddNewBookModal", "Book")',
+                type: 'GET',
+                success: function (response) {
+                    $('#ModalContainer').html(response);
+                    $('#AddNewBook').modal('show');
+                },
+                error: function () {
+                    alert('Error loading Modal');
+                }
+            });
+        }
+
+        function EditBookModal(Id) {
+            $.ajax({
+                url: '@Url.Action("EditBookModal", "Book")',
+                type: 'GET',
+                data: { id: Id },
+                success: function (response) {
+                    if (response.success == false) {
+                        toastr.error("Book Not Found");
+                    } else {
+                        $('#ModalContainer').html(response);
+                        $('#EditBook-Modal').modal('show');
+                    }
+
+                },
+                error: function () {
+                    alert('Error loading Modal');
+                }
+            });
+        }
+
+        function DeleteBookModal(Id) {
+            $.ajax({
+                url: '@Url.Action("DeleteBookModal", "Book")',
+                type: 'GET',
+                data: { id: Id },
+                success: function (response) {
+                    if (response.success == false) {
+                        toastr.error("Book Not Found");
+                    } else {
+                        $('#ModalContainer').html(response);
+                        $('#deleteBook').modal('show');
+                    }
+                },
+                error: function () {
+                    alert('Error loading Modal');
+                }
+            });
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            RenderBookList();
+        }
+
+        function applyFilters() {
+            currentPage = 1;
+            RenderBookList();
+        }
+
+        function updatePaginationInfo() {
+            const startItem = (currentstate.currentPage - 1) * currentstate.pageSize + 1;
+            const endItem = Math.min(currentstate.currentPage * currentstate.pageSize, currentstate.totalitemscounts);
+
+            const totalItems = currentstate.totalitemscounts;
+
+            $('#paginationInfo').text(`Showing ${startItem}-${endItem} of ${totalItems}`);
+            $('#paginationInfoMobile').text(`Showing ${startItem}-${endItem} of ${totalItems}`);
+
+            $('#prevPageBtn').prop('disabled', currentPage === 1);
+            $('#nextPageBtn').prop('disabled', currentPage === Math.ceil(totalItems / currentstate.pageSize));
+        }
+
+    </script>
+}
+
+
+
+<style>
+    .Layout {
+        background-color: white !important;
+        display: block;
+    }
+</style>

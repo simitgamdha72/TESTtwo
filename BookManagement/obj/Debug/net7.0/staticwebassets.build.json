@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "eJK/IJlPBOFLGVvImG3QCrJLEfubIGiydxuc8LmHg3U=",
+  "Hash": "EpSG1WXmENQ2NCskNSUyCL03AVIbiy64E3U6Swj8RMY=",
   "Source": "BookManagement",
   "BasePath": "_content/BookManagement",
   "Mode": "Default",
@@ -100,6 +100,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "D:\\TESTtwo\\BookManagement\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "SourceId": "BookManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\TESTtwo\\BookManagement\\wwwroot\\",
+      "BasePath": "_content/BookManagement",
+      "RelativePath": "js/bootstrap.bundle.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Identity": "D:\\TESTtwo\\BookManagement\\wwwroot\\js\\script.js",
+      "SourceId": "BookManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\TESTtwo\\BookManagement\\wwwroot\\",
+      "BasePath": "_content/BookManagement",
+      "RelativePath": "js/script.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\script.js"
     },
     {
       "Identity": "D:\\TESTtwo\\BookManagement\\wwwroot\\js\\site.js",
