@@ -55,9 +55,9 @@ public class BookController : Controller
         return PartialView("_BookList", bookViewModel);
     }
 
-    public IActionResult ShowIssuedBookList(BookSearchViewModel bookSearchViewModel)
+    public IActionResult ShowIssuedBookList()
     {
-        var query = _context.Books.AsQueryable();
+        List<Books> books = new List<Books>();
 
         string? cookie = Convert.ToString(User.FindFirstValue(ClaimTypes.Email));
 
@@ -73,14 +73,29 @@ public class BookController : Controller
             return RedirectToAction("Error", "Home");
         }
 
+        var userIssuedBooks = _context.UserIssuedBooks.Where(u => u.UserId == user.Id && u.isReturn != true).Select(i => new
+        {
+            i.BookId,
+        }).ToList();
+
+        foreach (var item in userIssuedBooks)
+        {
+            Books? book = _context.Books.FirstOrDefault(b => b.Id == item.BookId);
+
+            if (book != null)
+            {
+                books.Add(book);
+            }
+
+        }
 
 
         BookViewModel bookViewModel = new BookViewModel
         {
-            books = query.ToList(),
+            books = books.ToList(),
         };
 
-        return PartialView("_BookList", bookViewModel);
+        return PartialView("_IssuedBooks", bookViewModel);
     }
 
 
@@ -255,4 +270,50 @@ public class BookController : Controller
 
         return Json(new { success = true, message = "Book Issued to You" });
     }
+
+    public IActionResult ReturnBook(int id)
+    {
+        Books? books = _context.Books.FirstOrDefault(b => b.Id == id);
+        if (books == null)
+        {
+            return Json(new { success = false, message = "Book Not Found" });
+        }
+
+        string? cookie = Convert.ToString(User.FindFirstValue(ClaimTypes.Email));
+
+        if (cookie == null)
+        {
+            return RedirectToAction("Error", "Home");
+        }
+
+        User? user = _context.Users.FirstOrDefault(u => u.Email == cookie);
+
+        if (user == null)
+        {
+            return RedirectToAction("Error", "Home");
+        }
+
+        UserIssuedBooks? userIssuedBooksByUser = _context.UserIssuedBooks.FirstOrDefault(u => u.UserId == user.Id && u.isReturn == false && u.BookId == id);
+
+
+        if (userIssuedBooksByUser == null)
+        {
+            return RedirectToAction("Error", "Home");
+        }
+
+        userIssuedBooksByUser.isReturn = true;
+
+        _context.UserIssuedBooks.Update(userIssuedBooksByUser);
+
+
+        books.status = "available";
+        _context.Books.Update(books);
+
+        _context.SaveChanges();
+
+        return Json(new { success = true, message = "Book is return" });
+    }
+
+
+
 }

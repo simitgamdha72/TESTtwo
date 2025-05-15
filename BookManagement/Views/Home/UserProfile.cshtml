@@ -55,6 +55,11 @@
 
         <div class="col booklist-container">
             <div class="container-fluid">
+                <nav class="navbar-booklist">
+                    <div id="navbarItem">
+                        <a class="nav-item nav-link DashBoardHeadTag" href="#">IssuedBooks</a>
+                    </div>
+                </nav>
                 <div id="IssuedBooks"></div>
                 <nav class="navbar-booklist">
                     <div id="navbarItem">
@@ -182,12 +187,35 @@
                         toastr.success(response.message);
                     }
                     RenderBookList();
+                    RenderIssuedBookList();
                 },
                 error: function () {
                     alert('Error loading Modal');
                 }
             });
         }
+
+        function ReturnBook(Id) {
+            $.ajax({
+                url: '@Url.Action("ReturnBook", "Book")',
+                type: 'GET',
+                data: { id: Id },
+                success: function (response) {
+                    if (response.success == false) {
+                        toastr.error(response.message);
+                    } else {
+                        toastr.success(response.message);
+                    }
+                    RenderBookList();
+                    RenderIssuedBookList();
+                },
+                error: function () {
+                    alert('Error loading Modal');
+                }
+            });
+        }
+
+
 
         function changePage(direction) {
             currentPage += direction;
